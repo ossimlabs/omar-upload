@@ -61,14 +61,9 @@ dependencyManagement {
   applyMavenExclusions false
 }
 
-grails {
-  plugins {
-    compile project(':omar-core-plugin')
-  }
-}
-
 dependencies {
 
+  compile "io.ossim.omar.plugins:omar-core-plugin:+"
   compile "org.springframework.cloud:spring-cloud-starter-hystrix"
   compile "org.springframework.boot:spring-boot-starter-web"
 
