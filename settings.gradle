@@ -5,14 +5,8 @@ pluginManagement {
   }
 }
 
-def final O2_DEV_HOME = System.getenv('O2_DEV_HOME')
-
-if ( O2_DEV_HOME ) {
-
 include 'omar-upload-app',
         'omar-upload-plugin'
 
-project(':omar-upload-app').projectDir = "${O2_DEV_HOME}/omar-upload/apps/omar-upload-app" as File
-project(':omar-upload-plugin').projectDir = "${O2_DEV_HOME}/omar-upload/plugins/omar-upload-plugin" as File
-
-}
+project(':omar-upload-app').projectDir = "${rootProject.projectDir}/apps/omar-upload-app" as File
+project(':omar-upload-plugin').projectDir = "${rootProject.projectDir}/plugins/omar-upload-plugin" as File
