@@ -28,9 +28,9 @@
 
     <div>
         <h1>Welcome to the Omar Upload Service</h1>
-        <g:form method="post" enctype="multipart/form-data" controller="archive" action="upload">
+        <g:form method="post" enctype="multipart/form-data" controller="upload" action="upload">
             <input type="file" id="uploadedFile" name="uploadedFile" />
-            <g:actionSubmit controller="archive" action="upload" value="Upload File" onClick="showSpinner();" />
+            <g:actionSubmit controller="upload" action="upload" value="Upload File" onClick="showSpinner();" />
         </g:form>
         <img id="spinner" style="display:none;" src="${createLinkTo(dir: 'images', file: 'spinner.gif')}" alt="Spinner"/>
     </div>

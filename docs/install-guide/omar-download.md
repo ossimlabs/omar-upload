@@ -22,7 +22,7 @@ OMAR-upload requires shared access to OSSIM imagery data. This data is assumed t
 
 The upload service provides an endpoint for uploading imagery which can be accessed on the [API Swagger page](https://omar-dev.ossim.io/omar-upload/api)
 
-Notes for `<api>/archive/upload`:
+Notes for `<api>/upload/upload`:
 >Currently, only certain image types are supported, and only single images at a time.
 
 _[More examples](https://omar-dev.ossim.io/omar-upload/api)_

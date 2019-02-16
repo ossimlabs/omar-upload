@@ -12,6 +12,7 @@ class FileUploadCommand implements Validateable
     String type = "Upload"
     def uploadedFile
 
+    // Used by Validateable interface
     static constraints = {
         uploadedFile(nullable:false)
     }

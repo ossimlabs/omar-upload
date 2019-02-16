@@ -53,7 +53,7 @@ dependencyManagement {
 
 dependencies {
 
-  compile "io.ossim.omar.plugins:omar-core-plugin:+"
+  compile "io.ossim.omar.plugins:omar-core-plugin:${latestGradleIdentifier}"
   compile "org.springframework.cloud:spring-cloud-starter-hystrix"
   compile "org.springframework.boot:spring-boot-starter-web"
 
@@ -82,7 +82,7 @@ dependencies {
   testCompile "org.grails:grails-gorm-testing-support"
   testCompile "org.grails:grails-plugin-testing"
   testCompile "org.grails.plugins:geb"
-  testCompile "org.grails:grails-web-testing-support"
+  testCompile "org.grails:grails-web-testing-support:3.2.7"
   testRuntime "org.seleniumhq.selenium:selenium-htmlunit-driver:${seleniumHtmlUnitDriverV}"
   testRuntime "net.sourceforge.htmlunit:htmlunit:${htmlUnitV}"
 

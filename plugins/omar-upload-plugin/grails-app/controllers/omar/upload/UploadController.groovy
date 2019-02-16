@@ -1,33 +1,17 @@
 package omar.upload
 
-// import com.wordnik.swagger.annotations.Api
-// import com.wordnik.swagger.annotations.ApiImplicitParam
-// import com.wordnik.swagger.annotations.ApiImplicitParams
-// import com.wordnik.swagger.annotations.ApiOperation
-
 import io.swagger.annotations.*
 
-import groovy.json.JsonSlurper
-import omar.core.BindUtil
-
-import javax.xml.ws.Response
-import java.util.concurrent.ExecutionException
-import java.util.concurrent.TimeUnit
-import java.util.concurrent.TimeoutException
-
 @Api(
-        value = "archive",
+        value = "upload",
         description = "API operations for Upload IO",
         produces = 'application/json',
         consumes = 'multipart/form-data'
 )
 
-class ArchiveController {
+class UploadController {
 
-    static allowedMethods = [
-                              upload:["POST"]
-                            ]
-    def archiveService
+    def uploadService
 
     @ApiOperation(
             value = "Upload files",
@@ -35,9 +19,9 @@ class ArchiveController {
             produces='application/json',
             httpMethod="POST",
             notes="""
-Upload a file you wish to be staged by omar
-
-""")
+                Upload a file you wish to be staged by omar
+                
+                """)
 
     @ApiImplicitParams([
         @ApiImplicitParam(
@@ -49,12 +33,10 @@ Upload a file you wish to be staged by omar
             )
     ])
 
-    def upload() {
+    void upload() {
         def uploadedFile = params.uploadedFile
         def cmd = new FileUploadCommand(uploadedFile)
 
-        archiveService.upload(response, cmd)
-
-        null
+        uploadService.upload(response, cmd)
     }
 }

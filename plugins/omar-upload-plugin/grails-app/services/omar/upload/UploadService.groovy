@@ -3,24 +3,16 @@ package omar.upload
 import grails.transaction.Transactional
 import omar.core.HttpStatus
 import grails.converters.JSON
-import java.net.URL
-import groovy.json.JsonSlurper
 
 @Transactional
-class ArchiveService {
+class UploadService {
 
     def grailsApplication
     def upload(def response, FileUploadCommand cmd)
     {
-        Integer maxFiles = grailsApplication.config?.omar?.upload?.maxFiles?:10
-        String destinationPath = grailsApplication.config?.omar?.upload?.destinationPath?:'./'
-        if (!destinationPath?.endsWith("/")) {
-            destinationPath = destinationPath + System.getProperty("file.separator")
-        }
-
-        HashMap result = [
-                status:HttpStatus.OK,
-                message:"Uploading Files"
+        Map result = [
+                status: HttpStatus.OK,
+                message: "Uploading Files"
         ]
 
         if (cmd.validate())
@@ -31,8 +23,12 @@ class ArchiveService {
                 {
                     if(cmd.uploadedFile)
                     {
+                        String destinationPath = withTrailingPathSeparator(
+                                grailsApplication.config?.omar?.upload?.destinationPath ?: './')
+
                         File destinationFile = new File(destinationPath + cmd.uploadedFile.filename)
-                        println("Placing file at: ${destinationFile.getCanonicalPath()}")
+                        log.info("Placing file at: ${destinationFile.getCanonicalPath()}")
+
                         // getCanonicalFile is needed for some reason to get relative paths to work
                         cmd.uploadedFile.transferTo(destinationFile.getCanonicalFile())
                         result.message = "File placed at ${destinationFile.getCanonicalPath()}"
@@ -78,5 +74,13 @@ class ArchiveService {
         response.outputStream.close()
 
         result
+    }
+
+    private static withTrailingPathSeparator(String inputStr){
+        String outputStr = inputStr
+        if (!inputStr?.endsWith(System.getProperty("file.separator"))) {
+            outputStr = inputStr + System.getProperty("file.separator")
+        }
+        return outputStr
     }
 }
