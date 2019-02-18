@@ -47,6 +47,7 @@ dependencyManagement {
 dependencies {
 
   compile "io.swagger:swagger-annotations:1.5.15"
+  compile "io.swagger:swagger-models:1.5.15"
   compile "io.ossim.omar.plugins:omar-core-plugin:${latestGradleIdentifier}"
   compile "org.springframework.cloud:spring-cloud-starter-hystrix"
   compile "org.springframework.boot:spring-boot-starter-web"
