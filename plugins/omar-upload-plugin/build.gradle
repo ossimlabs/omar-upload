@@ -17,7 +17,7 @@ plugins {
 apply plugin: "eclipse"
 apply plugin: "idea"
 apply plugin: "org.grails.grails-plugin"
-apply plugin: "org.grails.grails-plugin-publish"
+//apply plugin: "org.grails.grails-plugin-publish"
 apply plugin: "org.grails.grails-gsp"
 apply plugin: "asset-pipeline"
 
@@ -29,7 +29,6 @@ repositories {
   maven { url ossimMavenProxy }
 }
 
-sourceSets.main.output.classesDir = 'build/classes/groovy/main'
 io.ossim.gradleDefaults.Variables.setAdditionalVariables(project)
 io.ossim.gradleDefaults.Variables.setVersionVariables(project)
 version "${buildVersion}-${buildVersionTag}"
@@ -80,8 +79,4 @@ dependencies {
   testCompile "org.grails:grails-web-testing-support:3.2.7"
   testRuntime "org.seleniumhq.selenium:selenium-htmlunit-driver:${seleniumHtmlUnitDriverV}"
   testRuntime "net.sourceforge.htmlunit:htmlunit:${htmlUnitV}"
-}
-
-assets {
-  packagePlugin = true
 }
