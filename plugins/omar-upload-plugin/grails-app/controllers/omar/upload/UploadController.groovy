@@ -19,8 +19,7 @@ class UploadController {
             produces='application/json',
             httpMethod="POST",
             notes="""
-                Upload a file you wish to be staged by omar
-                
+                Upload a file you wish to be staged by omar  
                 """)
 
     @ApiImplicitParams([
@@ -33,7 +32,7 @@ class UploadController {
             )
     ])
 
-    void upload() {
+    def upload() {
         def uploadedFile = params.uploadedFile
         def cmd = new FileUploadCommand(uploadedFile)
 
