@@ -17,7 +17,7 @@ plugins {
 apply plugin: "eclipse"
 apply plugin: "idea"
 apply plugin: "org.grails.grails-plugin"
-//apply plugin: "org.grails.grails-plugin-publish"
+apply plugin: "org.grails.grails-plugin-publish"
 apply plugin: "org.grails.grails-gsp"
 apply plugin: "asset-pipeline"
 
@@ -83,4 +83,10 @@ dependencies {
   testCompile "org.grails:grails-web-testing-support"
   testRuntime "org.seleniumhq.selenium:selenium-htmlunit-driver:${seleniumHtmlUnitDriverV}"
   testRuntime "net.sourceforge.htmlunit:htmlunit:${htmlUnitV}"
+}
+
+bootRepackage.enabled = false
+
+assets {
+    packagePlugin = true
 }
