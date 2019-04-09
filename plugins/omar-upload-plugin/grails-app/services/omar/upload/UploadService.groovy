@@ -32,7 +32,8 @@ class UploadService {
                         // getCanonicalFile is needed for some reason to get relative paths to work
                         cmd.uploadedFile.transferTo(destinationFile.getCanonicalFile())
                         result.message = "File placed at ${destinationFile.getCanonicalPath()}"
-
+                        result.location = destinationFile.getCanonicalPath()
+                        result.status = omar.core.HttpStatus.ACCEPTED
                     } else{
                         result.status =  omar.core.HttpStatus.NOT_ACCEPTABLE
                         result.message = "No file attached"
@@ -60,18 +61,10 @@ class UploadService {
                       message: message.toString()]
         }
 
-
-        response.setContentType("application/json")
-        response.status = result.status
-        String jsonData = "${result as JSON}"
-
-        response.outputStream.write(jsonData.bytes)
-        if(result.status != HttpStatus.OK)
+        if(result.status != HttpStatus.OK && result.status != HttpStatus.ACCEPTED)
         {
             log.error(jsonData)
         }
-
-        response.outputStream.close()
 
         result
     }
