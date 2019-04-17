@@ -15,5 +15,35 @@ serverProtocol: http
 
 omarWfsUrl: ${serverProtocol}://${serverName}/omar-wfs/wfs/
 omarUiUrl: ${serverProtocol}://${serverName}/omar-ui/omar#/map
+tlvUrl: ${serverProtocol}://${serverName}/tlv/
 
 baseWfsQuery: "getFeature?service=WFS&version=1.1.0&request=GetFeature&typeName=omar:raster_entry&resultType=results&outputFormat=JSON&maxFeatures=1"
+
+---
+grails:
+  cors:
+    enabled: true
+  resources:
+    pattern: '/**'
+  profile: web
+  codegen:
+    defaultPackage: omar.upload
+  spring:
+    transactionManagement:
+      proxies: false
+  gorm:
+    reactor:
+      # Whether to translate GORM events into Reactor events
+      # Disabled by default for performance reasons
+      events: false
+  controllers:
+    upload:
+      maxFileSize: 2000000000
+      maxRequestSize: 2000000000
+
+---
+hibernate:
+  cache:
+    queries: false
+    use_second_level_cache: false
+    use_query_cache: false

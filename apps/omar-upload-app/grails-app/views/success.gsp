@@ -18,31 +18,41 @@
     }
 
     function checkStagingStatus() {
-        var val = "hello&there";
-        console.log("${grailsApplication.config.omarWfsUrl}" + '${raw(grailsApplication.config.baseWfsQuery)}' + "&filter=filename+LIKE+%27%25${params.filename}%25%27");
+        var wfsQuery = "${raw(grailsApplication.config.omarWfsUrl)}${raw(grailsApplication.config.baseWfsQuery)}&filter=filename+LIKE+%27%25${params.filename}%25%27";
+        console.log(wfsQuery);
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 var wfsQueryResults = JSON.parse(this.responseText);
-                var omarUiLink = "${grailsApplication.config.omarUiUrl}?filename=${params.filename}"
+                if (wfsQueryResults != null && wfsQueryResults["features"].length != 0) {
+                    var omarUiLink = "${grailsApplication.config.omarUiUrl}?filename=${params.filename}&mapVisibility=true&spatial=mapFilter";
+                    console.log(wfsQueryResults);
+                    console.log(wfsQueryResults["features"]);
+                    console.log(wfsQueryResults["features"][0]["properties"]);
+                    var tlvLink = "${grailsApplication.config.tlvUrl}?filter=in(" + wfsQueryResults["features"][0]["properties"]["id"] + ")";
 
-                document.getElementById("checkStagingResults").innerHTML = "" +
-                    "<br />" +
-                    "The image has been staged!" +
-                    "<br /><br />" +
-                    "Omar-ui link: <a href=\"" + omarUiLink + "\">" + omarUiLink + "</a>" +
-                    "<br /><br />" +
-                    "Here is the result of the WFS query:" +
-                    "<br />" +
-                    "<pre>" + JSON.stringify(wfsQueryResults, null, 2) + "</pre>" +
-                    "";
+                    document.getElementById("checkStagingResults").innerHTML = "" +
+                        "<br />" +
+                        "The image has been staged!" +
+                        "<br /><hr /><br />" +
+                        "Omar-ui link: <a href=\"" + omarUiLink + "\">" + omarUiLink + "</a>" +
+                        "<br /><hr /><br />" +
+                        "TLV link: <a href=\"" + tlvLink + "\">" + tlvLink + "</a>" +
+                        "<br /><hr /><br />" +
+                        "Here is the result of the WFS query:" +
+                        "<br />" +
+                        "<div style=\"background-color: #dddddd\"><pre>" + JSON.stringify(wfsQueryResults, null, 2) + "</pre></div>" +
+                        "";
+                } else{
+                    document.getElementById("checkStagingResults").innerHTML = "The image has not yet been staged, please wait a few seconds and then try again."
+                }
             } else if (this.readyState == 4) {
                 document.getElementById("checkStagingResults").innerHTML = "The image has not yet been staged, please wait a few seconds and then try again."
             } else {
                 document.getElementById("checkStagingResults").innerHTML = "<img id='spinner' src=\"${createLinkTo(dir: 'images', file: 'spinner.gif')}\" alt='Spinner'/>"
             }
         };
-        xhttp.open("GET", "${raw(grailsApplication.config.omarWfsUrl)}${raw(grailsApplication.config.baseWfsQuery)}&filter=filename+LIKE+%27%25${params.filename}%25%27", true);
+        xhttp.open("GET", wfsQuery, true);
         xhttp.send();
     }
 
