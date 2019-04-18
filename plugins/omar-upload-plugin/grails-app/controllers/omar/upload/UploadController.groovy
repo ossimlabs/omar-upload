@@ -40,14 +40,6 @@ class UploadController {
 
         def result = uploadService.upload(response, cmd)
 
-//        response.setContentType("application/json")
-//        response.status = result.status
-//        String jsonData = "${result as JSON}"
-//
-//        response.outputStream.write(jsonData.bytes)
-//
-//        response.outputStream.close()
-
         if (result.status == HttpStatus.ACCEPTED) {
             redirect(uri:"/success?filename=${cmd.uploadedFile.filename}&location=${result.location}")
         }
