@@ -22,6 +22,8 @@
         console.log(wfsQuery);
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
+            // readyState 4: Done
+            // status 200: HTTP code 200: success
             if (this.readyState == 4 && this.status == 200) {
                 var wfsQueryResults = JSON.parse(this.responseText);
                 if (wfsQueryResults != null && wfsQueryResults["features"].length != 0) {
@@ -35,7 +37,7 @@
                         "<br />" +
                         "The image has been staged!" +
                         "<br /><hr /><br />" +
-                        "Omar-ui link: <a href=\"" + omarUiLink + "\">" + omarUiLink + "</a>" +
+                        "OMAR-UI link: <a href=\"" + omarUiLink + "\">" + omarUiLink + "</a>" +
                         "<br /><hr /><br />" +
                         "TLV link: <a href=\"" + tlvLink + "\">" + tlvLink + "</a>" +
                         "<br /><hr /><br />" +
