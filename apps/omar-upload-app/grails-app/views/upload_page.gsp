@@ -9,12 +9,10 @@
 <script type="text/javascript">
     function showSpinner() {
         document.getElementById('spinner').style.display = 'inline';
-        document.getElementById('error').style.display = 'none';
     }
 
     function hideSpinner() {
         document.getElementById('spinner').style.display = 'none';
-        document.getElementById('error').style.display = 'none';
     }
 
     function showError(e) {

@@ -10,6 +10,7 @@ class UrlMappings {
         }
 
         "/"(view:"/upload_page")
+        "/success"(view:"/success")
         "500"(view:'/error')
         "404"(view:'/notFound')
     }

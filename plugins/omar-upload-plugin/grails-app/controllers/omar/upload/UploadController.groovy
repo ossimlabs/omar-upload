@@ -1,6 +1,8 @@
 package omar.upload
 
+import grails.converters.JSON
 import io.swagger.annotations.*
+import omar.core.HttpStatus
 
 @Api(
         value = "upload",
@@ -36,6 +38,14 @@ class UploadController {
         def uploadedFile = params.uploadedFile
         def cmd = new FileUploadCommand(uploadedFile)
 
-        uploadService.upload(response, cmd)
+        def result = uploadService.upload(response, cmd)
+
+        if (result.status == HttpStatus.ACCEPTED) {
+            redirect(uri:"/success?filename=${cmd.uploadedFile.filename}&location=${result.location}")
+        }
+    }
+
+    def checkStatus() {
+
     }
 }
