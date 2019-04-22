@@ -17,7 +17,7 @@ omarWfsUrl: ${serverProtocol}://${serverName}/omar-wfs/wfs/
 omarUiUrl: ${serverProtocol}://${serverName}/omar-ui/omar#/map
 tlvUrl: ${serverProtocol}://${serverName}/tlv/
 
-baseWfsQuery: "getFeature?service=WFS&version=1.1.0&request=GetFeature&typeName=omar:raster_entry&resultType=results&outputFormat=JSON&maxFeatures=1"
+baseWfsQuery: "getFeature?service=WFS&version=1.1.0&request=GetFeature&typeName=omar:raster_entry&resultType=results&outputFormat=JSON&maxFeatures=10"
 
 ---
 grails:
