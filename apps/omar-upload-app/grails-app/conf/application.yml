@@ -1,4 +1,7 @@
 ---
+server:
+  contextPath: /omar-upload
+
 swagger:
   schemes:
     - HTTPS
