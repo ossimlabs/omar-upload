@@ -1,4 +1,15 @@
 ---
+baseWfsQuery: "getFeature?service=WFS&version=1.1.0&request=GetFeature&typeName=omar:raster_entry&resultType=results&outputFormat=JSON&maxFeatures=1"
+
+omar:
+  upload:
+    maxFiles: 10
+    destinationPath: /data/user-uploads/unprocessed
+
+omarWfsUrl: ${serverProtocol}://${serverName}/omar-wfs/wfs/
+omarUiUrl: ${serverProtocol}://${serverName}/omar-ui/omar#/map
+tlvUrl: ${serverProtocol}://${serverName}/tlv/
+
 server:
   contextPath: /omar-upload
 
@@ -7,20 +18,9 @@ swagger:
     - HTTPS
     - HTTP
 
-omar:
-  upload:
-    maxFiles: 10
-    destinationPath: ./
-
 serverDomain: localhost
 serverName: ${serverDomain}
 serverProtocol: http
-
-omarWfsUrl: ${serverProtocol}://${serverName}/omar-wfs/wfs/
-omarUiUrl: ${serverProtocol}://${serverName}/omar-ui/omar#/map
-tlvUrl: ${serverProtocol}://${serverName}/tlv/
-
-baseWfsQuery: "getFeature?service=WFS&version=1.1.0&request=GetFeature&typeName=omar:raster_entry&resultType=results&outputFormat=JSON&maxFeatures=10"
 
 ---
 grails:
