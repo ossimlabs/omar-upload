@@ -1,4 +1,4 @@
-/*buildscript {
+buildscript {
   repositories {
     mavenLocal()
     maven { url ossimMavenProxy }
@@ -12,14 +12,14 @@
 
 plugins {
     id "com.github.ben-manes.versions" version "0.17.0"
-}*/
-/*
-//apply plugin: "eclipse"
-//apply plugin: "idea"
-//apply plugin: "org.grails.grails-plugin"
-//apply plugin: "org.grails.grails-plugin-publish"
-//apply plugin: "org.grails.grails-gsp"
-//apply plugin: "asset-pipeline"
+}
+
+apply plugin: "eclipse"
+apply plugin: "idea"
+apply plugin: "org.grails.grails-plugin"
+apply plugin: "org.grails.grails-plugin-publish"
+apply plugin: "org.grails.grails-gsp"
+apply plugin: "asset-pipeline"
 
 apply plugin: "java"
 apply plugin: "maven-publish"
@@ -29,13 +29,13 @@ repositories {
   maven { url ossimMavenProxy }
 }
 
-//sourceSets.main.output.classesDir = 'build/classes/groovy/main'
-//io.ossim.gradleDefaults.Variables.setAdditionalVariables(project)
-//io.ossim.gradleDefaults.Variables.setVersionVariables(project)
-//version "${buildVersion}-${buildVersionTag}"
-//jarDestination = "${projectDir}/build/libs/${project.name}-${version}.jar"
-//io.ossim.gradleDefaults.Publications.addPublication(project, groupName, name, "${buildVersion}-${buildVersionTag}")
-//io.ossim.gradleDefaults.Publications.addRepository(project, mavenPublishUrl, mavenRepoUsername, mavenRepoPassword)
+sourceSets.main.output.classesDir = 'build/classes/groovy/main'
+io.ossim.gradleDefaults.Variables.setAdditionalVariables(project)
+io.ossim.gradleDefaults.Variables.setVersionVariables(project)
+version "${buildVersion}-${buildVersionTag}"
+jarDestination = "${projectDir}/build/libs/${project.name}-${version}.jar"
+io.ossim.gradleDefaults.Publications.addPublication(project, groupName, name, "${buildVersion}-${buildVersionTag}")
+io.ossim.gradleDefaults.Publications.addRepository(project, mavenPublishUrl, mavenRepoUsername, mavenRepoPassword)
 
 dependencyManagement {
   imports {
@@ -91,4 +91,3 @@ bootRepackage.enabled = false
 assets {
     packagePlugin = true
 }
-*/
