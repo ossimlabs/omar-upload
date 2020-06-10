@@ -13,3 +13,5 @@ docker/*.jar
 packaged-chart
 .lock
 charts/*.tgz
+plugins/omar-upload-plugin/bin/
+apps/omar-upload-app/bin/
