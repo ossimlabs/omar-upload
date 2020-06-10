@@ -10,3 +10,6 @@ build/
 .settings
 .classpath
 docker/*.jar
+packaged-chart
+.lock
+charts/*.tgz
