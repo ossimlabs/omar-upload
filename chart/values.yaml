@@ -58,7 +58,7 @@ resources:
     memory: 500Mi
     
 image:
-  name: omar-upload-app
+  name: omar-upload
   tag: dev
   pullPolicy: Always
 
