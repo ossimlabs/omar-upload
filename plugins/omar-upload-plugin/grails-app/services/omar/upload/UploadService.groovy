@@ -1,10 +1,8 @@
 package omar.upload
 
-import grails.transaction.Transactional
 import omar.core.HttpStatus
 import grails.converters.JSON
 
-@Transactional
 class UploadService {
 
     def grailsApplication
