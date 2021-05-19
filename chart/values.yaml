@@ -30,12 +30,13 @@ global:
 
   volumes:
     ossimData:
-      type: null
-      nfsServer: null
-      nfsMountPoint: null
+      type: nfs
+      nfsServer: 10.70.40.254
+      nfsMountPoint: /omar-3pa-dev-nfs/buzz-test
       accessModes:
         - ReadWriteMany
-      size: 1
+      size: 500gi
+      mountPath: /buzz-test
 
 volumes:
   ossimData: null
