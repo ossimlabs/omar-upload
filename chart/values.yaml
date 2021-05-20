@@ -41,6 +41,8 @@ global:
 volumes:
   ossimData: null
 
+baseUrl: https://omar-3pa-dev.ossim.io
+
 # These variables can be overridden because of the use of the 'pluck' function:
 # - createIngress
 # - useTls

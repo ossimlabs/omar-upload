@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "{{ .Values.appName }}"
+  labels:
+    app: "{{ .Values.appName }}"
+data:
+  application.yaml: |-
+    app:
+      post:
+        url:
+          prefix: "{{ .Values.baseUrl }}/omar-stager/dataManager/addRaster?filename=/Users/benbuzzelli/Desktop/omar-upload-imagery/2021-05-19/"
+          suffix: "&background=true&buildThumbnails=true&buildOverviews=true&buildHistograms=true&buildHistogramsWithR0=true&useFastHistogramStaging=false&overviewType=ossim_tiff_box&overviewCompressionType=NONE&thumbnailSize=512&thumbnailType=jpeg&thumbnailStretchType=auto-minmax"

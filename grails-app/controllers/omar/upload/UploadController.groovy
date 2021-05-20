@@ -21,10 +21,23 @@ class UploadController {
       return dirPath
     }
 
+    def stageImage(def path) {
+      def prefix = "https://omar-3pa-dev.ossim.io/omar-stager/dataManager/addRaster?filename="
+      def suffix = "&background=true&buildThumbnails=true&buildOverviews=true&buildHistograms=true&buildHistogramsWithR0=true&useFastHistogramStaging=false&overviewType=ossim_tiff_box&overviewCompressionType=NONE&thumbnailSize=512&thumbnailType=jpeg&thumbnailStretchType=auto-minmax"
+      def url = prefix + path + suffix
+
+      def post = new URL(url).openConnection();
+      def postRC = post.getResponseCode();
+      println(postRC);
+      if (postRC.equals(200)) {
+          println(post.getInputStream().getText());
+      }
+    }
+
     def uploadImage() {
       def file = request.getFile('uploadedFile')
       String imageUploadPath = makeImageDirectories()
-    //   String imageUploadPath = grailsApplication.config.imageUpload.path
+      
       try{
         if(file && !file.empty && validFileType(file.filename)) {
             println "*"*80
@@ -33,6 +46,7 @@ class UploadController {
             File fileDest = new File("${imageUploadPath}/${file.filename}")
             file.transferTo(fileDest)
             flash.message="your.sucessful.file.upload.message"
+            stageImage("${imageUploadPath}/${file.filename}")
             render(view:'uploadImage')
         } else {
             println "*"*80

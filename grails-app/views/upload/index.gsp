@@ -1,20 +1,20 @@
-<html>
+<!DOCTYPE html>
 <html>
 <head>
     <meta name="layout" content="main"/>
     <title>Upload Page</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <asset:javascript library='jquery' src="components/upload.js"/>
 </head>
 <body>
 
-<div id="content" role="main">
-    <section class="row colset-2-its">
-        <h1>Welcome to the Image Upload Page...</h1>
-        <g:uploadForm controller="upload" action="uploadImage">
-          <input type="file" id="uploadedFile" name="uploadedFile">
-          <input type="submit" value="Upload Image">
+    <div class="title task-bar">Omar Image Upload</div>
+    <div class="form">
+        <g:uploadForm  name="uploadForm" controller="upload" action="uploadImage">
+            <input onChange="ValidateImage(event)" type="file" id="uploadedFile" name="uploadedFile" onClick="this.blur();">
+            <input class="submit" type="submit" value="Upload Image" onClick="this.blur();">
         </g:uploadForm>
-    </section>
-</div>
-
+        <div class="p1 color1 div1" id="imageInfo"></div>
+    </div>
 </body>
 </html>
