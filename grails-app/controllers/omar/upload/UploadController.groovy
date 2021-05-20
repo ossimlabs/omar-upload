@@ -7,12 +7,38 @@ class UploadController {
   def baseUrl = grailsApplication.config.upload.baseUrl
   def suffix = grailsApplication.config.upload.suffix
   def maxFileSize = grailsApplication.config.grails.controllers.upload.maxFileSize
-  def phrase = "Hello"
-  def index() { }
 
   def emptyErrorMessage = "File cannot be empty"
   def badTypeMessage = "File is of an incorrect type"
   def fileSizeExceededMessage = "File limit of ${maxFileSize} bytes exceeded"
+
+  def index() { }
+
+  def uploadImage() {
+    def file = request.getFile('uploadedFile')
+    String path = makeImageDirectories()
+    def validationString = getImageValidation(file)
+    try {
+      if(validationString == 'valid') {
+          println "*"*80
+          println "Uploaded: ${path}/${file.filename}"
+
+          File fileDest = new File("${path}/${file.filename}")
+          file.transferTo(fileDest)
+          flash.message="your.sucessful.file.upload.message"
+          stageImage("${path}/${file.filename}")
+          render(view:'uploadImage')
+      } else {
+          println "*"*80
+          println validationString
+          flash.message="your.unsucessful.file.upload.message"
+          render(view:'index')
+      }
+    }
+      catch(Exception e){
+          log.error("Your exception message goes here",e)   
+      }
+  }
 
   def validFileType(def name) {
     return name.endsWith('.tif')
@@ -54,31 +80,5 @@ class UploadController {
     if (postRC.equals(200)) {
         println(post.getInputStream().getText());
     }
-  }
-
-  def uploadImage() {
-    def file = request.getFile('uploadedFile')
-    String path = makeImageDirectories()
-    def validationString = getImageValidation(file)
-    try {
-      if(validationString == 'valid') {
-          println "*"*80
-          println "Uploaded: ${path}/${file.filename}"
-
-          File fileDest = new File("${path}/${file.filename}")
-          file.transferTo(fileDest)
-          flash.message="your.sucessful.file.upload.message"
-          stageImage("${path}/${file.filename}")
-          render(view:'uploadImage')
-      } else {
-          println "*"*80
-          println validationString
-          flash.message="your.unsucessful.file.upload.message"
-          render(view:'index')
-      }
-    }
-      catch(Exception e){
-          log.error("Your exception message goes here",e)   
-      }
   }
 }
