@@ -29,14 +29,17 @@ global:
   useSpringConfigServer: false
 
   volumes:
-    ossimData:
+    uploadData:
       type: nfs
-      nfsServer: 10.70.40.254
+      nfsServer: 10.20.150.239
       nfsMountPoint: /omar-3pa-dev-nfs/buzz-test
       accessModes:
         - ReadWriteMany
       size: 500gi
       mountPath: /buzz-test
+
+volumeNames:
+  - uploadData
 
 volumes:
   ossimData: null
@@ -89,3 +92,12 @@ terminationGracePeriodSeconds: 30
 envVars:
   SPRING_CLOUD_CONFIG_LABEL: master
   JAVA_OPTS: "-server -Xms256m -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:MaxRAMFraction=1 -XX:+CMSClassUnloadingEnabled -XX:+UseGCOverheadLimit -Djava.awt.headless=true -XshowSettings:vm -Djava.security.egd=file:/dev/./urandom"
+
+upload:
+  imageUploadPath: /tmp/omar-upload-imagery
+  baseUrl: https://omar-3pa-dev.ossim.io
+  suffix: "&background=true&buildThumbnails=true&buildOverviews=true&buildHistograms=true&buildHistogramsWithR0=true&useFastHistogramStaging=false&overviewType=ossim_tiff_box&overviewCompressionType=NONE&thumbnailSize=512&thumbnailType=jpeg&thumbnailStretchType=auto-minmax"
+
+configmaps:
+  omar-upload:
+    file: application.yaml

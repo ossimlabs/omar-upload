@@ -1,5 +1,3 @@
-console.log("Loaded upload.js");
-
 function GetSizeString(size) {
   
   switch (true) {
@@ -16,17 +14,35 @@ function GetSizeString(size) {
   }
 }
 
-function ValidateImage(event) {
+function ValidSize(mySize, sizeLimit) {
+  console.log(`${mySize} | ${sizeLimit}`);
+  return mySize < sizeLimit;
+}
+
+function ValidateImage(event, sizeLimit) {
+  let info = document.getElementById("imageInfo");
+  if (!event.target.files[0]) {
+    info.innerHTML = '';
+    $("#submit").hide();
+    return;
+  }
   //Get reference of File.
   let fileUpload = document.getElementById("uploadedFile");
 
   //Check whether the file is valid Image.
-  let regex = new RegExp("([a-zA-Z0-9\s_\\.\-:])+(.jpg|.png|.gif|.tif)$");
-  if (regex.test(fileUpload.value.toLowerCase())) {
-    let size = event.target.files[0].size;
-    let info = document.getElementById("imageInfo");
-    info.innerHTML = `<span class="p1 color2" id="imageInfo">File size: </span>${GetSizeString(size)}`;
-  } else {
+  let regex = new RegExp("([a-zA-Z0-9\s_\\.\-:])+(.tif)$");
+  let size = event.target.files[0].size;
 
+  if (regex.test(fileUpload.value.toLowerCase()) && ValidSize(size, sizeLimit)) {
+    $("#submit").show();
+    info.innerHTML = `<span class="p1 color2" id="imageInfo">File size: </span>${GetSizeString(size)}`;
+  } else if (!ValidSize(size, sizeLimit)) {
+    $("#uploadedFile").empty();
+    $("#submit").show();
+    info.innerHTML = `<span class="p1 colorError" id="imageInfo">File size exceeds the limit of ${GetSizeString(sizeLimit)}</span>`;
+  } else {
+    $("#uploadedFile").empty();
+    $("#submit").show();
+    info.innerHTML = `<span class="p1 colorError" id="imageInfo">Incorrect file type</span>`;
   }
 }
