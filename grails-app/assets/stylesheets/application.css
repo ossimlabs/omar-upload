@@ -42,11 +42,19 @@
   text-align: center;
   line-height: 60px;
   border-bottom: solid 1px#4a4a4a;
+  box-shadow: 0 0 5px #3d3d3d;
+}
+
+.logo {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  height: 20px;
 }
 
 .form {
   width: 100vw;
-  margin: 30px;
+  margin-top: 30px;
   text-align: center;
 }
 
@@ -104,6 +112,7 @@ input:focus {
 
 body {
   background-color: var(--secondary-dark);
+  margin: 0px;
   color: #333333;
   overflow-x: hidden; /* prevents box-shadow causing a horizontal scrollbar in firefox when viewport < 960px wide */
 }

@@ -7,8 +7,6 @@
     <asset:javascript library='jquery' src="components/upload.js"/>
 </head>
 <body>
-
-    <div class="title task-bar">Omar Image Upload</div>
     <div class="form">
         <g:uploadForm  name="uploadForm" controller="upload" action="uploadImage">
             <input onChange="ValidateImage(event)" type="file" id="uploadedFile" name="uploadedFile" onClick="this.blur();">

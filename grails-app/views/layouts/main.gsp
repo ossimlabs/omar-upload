@@ -16,6 +16,10 @@
 
 <body>
 
+<div class="title task-bar">
+    <asset:image class="logo" src="maxar_gold_logo.svg" alt="Grails Logo"/>
+    Omar Image Upload
+</div>
 <g:layoutBody/>
 
 <asset:javascript src="application.js"/>
