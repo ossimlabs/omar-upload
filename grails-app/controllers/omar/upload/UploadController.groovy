@@ -12,6 +12,18 @@ class UploadController {
   def badTypeMessage = "File is of an incorrect type"
   def fileSizeExceededMessage = "File limit of ${maxFileSize} bytes exceeded"
 
+  class Image {
+    def filename
+    def path
+    def size
+
+    Image(def filename, def path, def size) {
+      this.filename = filename
+      this.path = path
+      this.size = size
+    }
+  }
+
   def index() { }
 
   def uploadImage() {
@@ -26,8 +38,11 @@ class UploadController {
           File fileDest = new File("${path}/${file.filename}")
           file.transferTo(fileDest)
           flash.message="your.sucessful.file.upload.message"
+
           stageImage("${path}/${file.filename}")
-          render(view:'uploadImage')
+
+          def image = new Image(file.filename, path, file.size)
+          render(view:'uploadImage', model: [image: image])
       } else {
           println "*"*80
           println validationString

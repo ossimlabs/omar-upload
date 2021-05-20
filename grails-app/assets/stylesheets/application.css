@@ -19,6 +19,14 @@
   font-size: x-large;
 }
 
+.form-title {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  color: var(--text-secondary-dark);
+  font-family: "Arial";
+  font-size: large;
+}
+
 .color1 {
   color: var(--text-secondary-dark);
 }
@@ -34,6 +42,12 @@
 .p1 {
   font-family: "Arial";
   font-size: medium;
+}
+
+ul {
+  list-style-type: none;
+  margin-left: 0px;
+  padding-left: 0px;
 }
 
 .div1 {
@@ -114,9 +128,38 @@ input:focus {
   outline: none;
 }
 
+.info-container {
+  display: inline-block;
+  min-width: 200px;
+  border: #db9814 solid 1px;
+  border-radius: 5px;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+tr {
+  border-top: #3d3d3d solid 1px;
+  background-color: transparent;
+}
+
+td {
+  padding-top: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 10px;
+}
+
+.td-h {
+  text-align: left;
+}
+
 body {
   background-color: var(--secondary-dark);
+  height: 100vh;
   margin: 0px;
   color: #333333;
-  overflow-x: hidden; /* prevents box-shadow causing a horizontal scrollbar in firefox when viewport < 960px wide */
+  overflow-x: hidden;
+  background-image: linear-gradient(#1d1d1d, #121212);
 }
