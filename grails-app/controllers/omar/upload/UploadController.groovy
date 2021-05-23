@@ -11,16 +11,32 @@ class UploadController {
   def emptyErrorMessage = "File cannot be empty"
   def badTypeMessage = "File is of an incorrect type"
   def fileSizeExceededMessage = "File limit of ${maxFileSize} bytes exceeded"
+  def fileAlreadyExists = "File already exists"
 
   class Image {
     def filename
     def path
     def size
 
+    def getSizeString(size) {
+      switch (true) {
+        case size < 1000:
+          return "${size} B";
+        case (size < 1000000):
+          return "${(size / 1000).round(1)} KB";
+        case size < 1000000000:
+          return "${(size / 1000000).round(1)} MB";
+        case size < 1000000000000:
+          return "${(size / 1000000000).round(1)} GB";
+        default:
+          return "${size}";
+      }
+    }
+
     Image(def filename, def path, def size) {
       this.filename = filename
       this.path = path
-      this.size = size
+      this.size = getSizeString(size)
     }
   }
 
@@ -29,7 +45,7 @@ class UploadController {
   def uploadImage() {
     def file = request.getFile('uploadedFile')
     String path = makeImageDirectories()
-    def validationString = getImageValidation(file)
+    def validationString = getImageValidation(file, "${path}/${file.filename}")
     try {
       if(validationString == 'valid') {
           println "*"*80
@@ -42,12 +58,12 @@ class UploadController {
           stageImage("${path}/${file.filename}")
 
           def image = new Image(file.filename, path, file.size)
-          render(view:'uploadImage', model: [image: image])
+          render(view:'uploadImage', model: [image: image, message: null])
       } else {
           println "*"*80
           println validationString
           flash.message="your.unsucessful.file.upload.message"
-          render(view:'index')
+          render(view:'uploadImage', model: [image: null, message: validationString])
       }
     }
       catch(Exception e){
@@ -56,20 +72,22 @@ class UploadController {
   }
 
   def validFileType(def name) {
-    return name.endsWith('.tif')
+    return (name.endsWith('.tif') || name.endsWith('.ntf'))
   }
 
   def validSize(def size, def maxSize) {
     return size <= maxSize
   }
 
-  def getImageValidation(def file) {
+  def getImageValidation(def file, def filepath) {
     if (!file || file.empty)
       return emptyErrorMessage
     if (!validFileType(file.filename))
       return badTypeMessage
     if (!validSize(file.size, maxFileSize))
       return fileSizeExceededMessage
+    if (new File(filepath).exists())
+      return fileAlreadyExists
 
     return 'valid'
   }

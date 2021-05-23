@@ -14,6 +14,7 @@
             <input hidden id="submit" class="submit" type="submit" value="Upload Image" onClick="this.blur();">
         </g:uploadForm>
         <div class="p1 color1 div1" id="imageInfo"></div>
+        <div class="p1 colorError div1" id="imageError">${this.message}</div>
     </div>
 </body>
 </html>

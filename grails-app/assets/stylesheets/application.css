@@ -10,6 +10,7 @@
   --text-secondary-dark: #c9c9c9;
   --text-primary: #1d1d1d;
   --alt: #ff9273;
+  --success: #a4ed8c;
   --border-primary: #9a6b0e;
 }
 
@@ -33,6 +34,10 @@
 
 .color2 {
   color: var(--primary);
+}
+
+.colorSuccess {
+  color: var(--success);
 }
 
 .colorError {
@@ -60,7 +65,8 @@ ul {
   text-align: center;
   line-height: 60px;
   border-bottom: solid 1px#4a4a4a;
-  box-shadow: 0 0 5px #3d3d3d;
+  background: rgb(29,29,29);
+  background: linear-gradient(180deg, rgba(29,29,29,1) 62%, rgba(36,36,36,1) 100%, rgba(60,60,60,1) 100%);
 }
 
 .logo {
@@ -101,7 +107,7 @@ input {
   height: 32px;
 }
 
-::-webkit-file-upload-button {
+::-webkit-file-upload-button, button {
   height: 32px;
   background-color:#fcaf17;
   color:#2e2e2e;
@@ -110,11 +116,11 @@ input {
   border: none;
 }
 
-::-webkit-file-upload-button:hover {
+::-webkit-file-upload-button:hover, button:hover {
   background-color:#ffc759;
 }
 
-::-webkit-file-upload-button:focus {
+::-webkit-file-upload-button:focus, button:focus {
   background-color:#fcaf17;
   outline: none;
 }
@@ -133,6 +139,7 @@ input:focus {
   min-width: 200px;
   border: #db9814 solid 1px;
   border-radius: 5px;
+  margin-bottom: 20px;
 }
 
 table {
@@ -155,11 +162,34 @@ td {
   text-align: left;
 }
 
+.nav-btn {
+  display: inline-block;
+}
+
+.icon {
+  color: #fcaf17;
+  cursor: default;
+}
+
+.icon-button {
+  color: #fcaf17;
+  cursor: default;
+}
+
+.icon-button:hover {
+  color: #ffc759;
+}
+
+.icon-button:focus {
+  color: #9a6b0e;
+}
+
 body {
   background-color: var(--secondary-dark);
   height: 100vh;
   margin: 0px;
   color: #333333;
   overflow-x: hidden;
-  background-image: linear-gradient(#1d1d1d, #121212);
+  background: rgb(29,29,29);
+  background: linear-gradient(180deg, rgba(29,29,29,1) 65%, rgba(18,18,18,1) 100%);
 }
