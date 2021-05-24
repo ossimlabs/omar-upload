@@ -2,7 +2,7 @@
 grails:
     profile: web
     codegen:
-        defaultPackage: omar.upload.app
+        defaultPackage: omar.upload
     gorm:
         reactor:
             # Whether to translate GORM events into Reactor events
@@ -73,8 +73,8 @@ grails:
             maxsize: 1000
     controllers:
         upload:
-            maxFileSize: 1000000000
-            maxRequestSize: 1000000000
+            maxFileSize: 26214400
+            maxRequestSize: 26214400
         defaultScope: singleton
     converters:
         encoding: UTF-8
@@ -100,67 +100,47 @@ hibernate:
         queries: false
         use_second_level_cache: false
         use_query_cache: false
-    dialect: 'org.hibernate.spatial.dialect.postgis.PostgisDialect'
-            
----
-server:
-    servlet:
-        context-path: /omar-upload
-    contextPath: ${server.servlet.context-path}
+dataSource:
+    pooled: true
+    jmxExport: true
+    driverClassName: org.postgresql.Driver
+    username: postgres
+    password: ${omarDb.password}
+    dialect: org.hibernate.spatial.dialect.postgis.PostgisDialect
 
-swagger:
-    schemes:
-        - HTTPS
-        - HTTP
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
-  endpoint:
-    env:
-      enabled: true
-      sensitive: false
-    health:
-      enabled: true
-    
-grails:
-    cors:
-        enabled: true
-    resources:
-        pattern: '/**'
-    servlet:
-        version: 3.0
----
-spring:
-  application:
-    name: omar-upload
-  cloud:
-    discovery:
-      enabled: ${SPRING_CLOUD_DISCOVERY_ENABLED:false}
-    service-registry:
-      auto-registration:
-        enabled: ${spring.cloud.discovery.enabled}
-
----
-# environments:
-#   production:
-#     dataSource:
-#       pooled: true
-#       jmxExport: true
-#       driverClassName: org.postgresql.Driver
-#       dialect: org.hibernate.spatial.dialect.postgis.PostgisDialect
-#       url: jdbc:postgres://localhost:5432/omar_db
-#       username: postgres
-#       password: password
-
-# Set the context path for tha pplication.
-server:
-  contextPath: /omar-upload
+environments:
+    development:
+        dataSource:
+            dbCreate: update
+            url: jdbc:postgresql:omardb-dev
+    test:
+        dataSource:
+            dbCreate: update
+            url: jdbc:postgresql:omardb-test
+    production:
+        dataSource:
+            dbCreate: none
+            url: ${omarDb.url}
+            properties:
+                jmxEnabled: true
+                initialSize: 5
+                maxActive: 50
+                minIdle: 5
+                maxIdle: 25
+                maxWait: 10000
+                maxAge: 600000
+                timeBetweenEvictionRunsMillis: 5000
+                minEvictableIdleTimeMillis: 60000
+                validationQuery: SELECT 1
+                validationQueryTimeout: 3
+                validationInterval: 15000
+                testOnBorrow: true
+                testWhileIdle: true
+                testOnReturn: false
+                jdbcInterceptors: ConnectionState
+                defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
 
 upload:
-  test: ${uploadTest.name}
-  imageUploadPath: /3pa-blacksky/upload-test
-  baseUrl: https://omar-3pa-dev.ossim.io/omar-stager/dataManager/addRaster?filename=
-  suffix: "&background=true&buildThumbnails=true&buildOverviews=true&buildHistograms=true&buildHistogramsWithR0=true&useFastHistogramStaging=false&overviewType=ossim_tiff_box&overviewCompressionType=NONE&thumbnailSize=512&thumbnailType=jpeg&thumbnailStretchType=auto-minmax"
+    imageUploadPath: /Users/benbuzzelli/Desktop/omar-upload-imagery
+    baseUrl: https://omar-3pa-dev.ossim.io
+    suffix: "&background=true&buildThumbnails=true&buildOverviews=true&buildHistograms=true&buildHistogramsWithR0=true&useFastHistogramStaging=false&overviewType=ossim_tiff_box&overviewCompressionType=NONE&thumbnailSize=512&thumbnailType=jpeg&thumbnailStretchType=auto-minmax"

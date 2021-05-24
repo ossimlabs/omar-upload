@@ -1,7 +1,7 @@
 {{- if (pluck "createPVs" .Values .Values.global) }}
 
-{{- range $volumeName := .Values.volumeNames }}
-{{- $volumeDict := index $.Values.global.volumes $volumeName }}
+  {{- range $volumeName := .Values.volumeNames }}
+  {{- $volumeDict := index $.Values.global.volumes $volumeName }}
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -26,7 +26,7 @@ spec:
   persistentVolumeReclaimPolicy: Retain
 
 ---
-  
+
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -46,5 +46,5 @@ spec:
       storage: {{ $volumeDict.size }}
   volumeName: "{{ $.Release.Namespace }}-{{ $.Values.appName }}-{{ $volumeName }}-pv"
 
-{{- end }}
-{{- end }}
+  {{- end }}
+  {{- end }}

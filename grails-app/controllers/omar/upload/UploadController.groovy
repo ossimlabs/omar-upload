@@ -1,11 +1,18 @@
 package omar.upload
 import java.text.SimpleDateFormat
+import org.springframework.beans.factory.annotation.Value
 
 class UploadController {
-  
-  def imageUploadPath = grailsApplication.config.upload.imageUploadPath
-  def baseUrl = grailsApplication.config.upload.baseUrl
-  def suffix = grailsApplication.config.upload.suffix
+
+  @Value('${upload.path:/data}')
+  def imageUploadPath
+
+  @Value('${upload.url:http}')
+  def baseUrl
+
+  @Value('${upload.suffix:suffix}')
+  def suffix
+
   def maxFileSize = grailsApplication.config.grails.controllers.upload.maxFileSize
 
   def emptyErrorMessage = "File cannot be empty"
@@ -40,9 +47,12 @@ class UploadController {
     }
   }
 
-  def index() { }
+  def index() {
+    println("Upload path: " + imageUploadPath)
+  }
 
   def uploadImage() {
+    println("upload.test: " + grailsApplication.config.upload.test)
     def file = request.getFile('uploadedFile')
     String path = makeImageDirectories()
     def validationString = getImageValidation(file, "${path}/${file.filename}")
@@ -108,6 +118,8 @@ class UploadController {
     def url = baseUrl + path + suffix
 
     def post = new URL(url).openConnection();
+    post.setRequestMethod("POST");
+    println(url);
     def postRC = post.getResponseCode();
     println(postRC);
     if (postRC.equals(200)) {

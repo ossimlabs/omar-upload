@@ -6,4 +6,23 @@ metadata:
     app: "{{ .Values.appName }}"
 data:
   application.yaml: |-
-    
+    upload:
+      imageUploadPath: {{ .Values.upload.imageUploadPath }}
+      baseUrl: {{ .Values.upload.baseUrl }}
+      suffix: {{ .Values.upload.suffix }}
+    environments:
+      production:
+        dataSource:
+          url: ${omarDb.url}
+          dbCreate: update
+    omarDb:
+      dialect: org.hibernate.spatial.dialect.postgis.PostgisDialect
+      driver: org.postgresql.Driver
+      host:  {{ .Values.global.omarDb.host }}
+      name: {{ .Values.global.omarDb.name }}
+      username: {{ .Values.global.omarDb.user }}      
+      password: {{ .Values.global.omarDb.password }}
+      port: {{ .Values.global.omarDb.port }}
+      url: jdbc:postgresql://${omarDb.host}:${omarDb.port}/${omarDb.name}
+    uploadTest:
+      name: benji

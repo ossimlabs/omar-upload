@@ -53,8 +53,8 @@ spec:
             memory: {{ .Values.resources.requests.memory }}
         terminationMessagePath: /dev/termination-log
         volumeMounts:
-        - mountPath: /data
-          name: ossim-data
+        - mountPath: /3pa-blacksky
+          name: upload-data
         securityContext:
           capabilities:
             add:
@@ -69,6 +69,6 @@ spec:
       restartPolicy: Always
       terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
       volumes:
-      - name: ossim-data
+      - name: upload-data
         persistentVolumeClaim:
-          claimName: "{{ .Values.appName }}-ossim-data-pvc"
+          claimName: "{{ .Values.appName }}-upload-data-pvc"
