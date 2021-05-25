@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "{{ .Values.appName }}"
+  labels:
+    app: "{{ .Values.appName }}"
+data:
+  application.yaml: |-
+    upload:
+      imageUploadPath: '/data'
+      baseUrl: 'omar-3pa-dev.ossim.io'
+      suffix: 'omar-upload'
+    environments:
+      production:
+        dataSource:
+          url: ${omarDb.url}
+          dbCreate: update
+    omarDb:
+      dialect: org.hibernate.spatial.dialect.postgis.PostgisDialect
+      driver: org.postgresql.Driver
+      host:  {{ .Values.global.omarDb.host }}
+      name: {{ .Values.global.omarDb.name }}
+      username: {{ .Values.global.omarDb.user }}      
+      password: {{ .Values.global.omarDb.password }}
+      port: {{ .Values.global.omarDb.port }}
+      url: jdbc:postgresql://${omarDb.host}:${omarDb.port}/${omarDb.name}
+    uploadTest:
+      name: benji

@@ -14,33 +14,18 @@ spec:
         app: {{ .Values.appName }}
     spec:
       initContainers:
-      {{- if (pluck "useSpringConfigServer" .Values .Values.global | first) }}
-      - name: wait-for-config-server
-        image: busybox:1.28
-        command: ['sh', '-c', "until wget omar-config-server:8888/omar-config-server/omar-upload.yml; do echo waiting for config server; sleep 2; done"]
+      {{- if .Values.extraInitContainers }}
+      {{- toYaml .Values.extraInitContainers | nindent 6 }}
       {{- end }}
       containers:
+      {{- if .Values.sideCars }}
+      {{- toYaml .Values.sideCars | nindent 6 }}
+      {{- end }}
       - name:  {{ .Values.appName }}
         env:
-        {{- include "omar-upload.envVars" . | nindent 8 }}
+        {{- include "omar-upload.envVars" . | indent 8 }}
         image: "{{ .Values.global.dockerRepository }}/{{ .Values.image.name }}:{{ .Values.image.tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
-        livenessProbe:
-          failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
-          initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
-          periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
-          successThreshold: {{ .Values.livenessProbe.successThreshold }}
-          timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
-          tcpSocket:
-            port: {{ .Values.internalPort }}
-        readinessProbe:
-          failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
-          initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
-          periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
-          successThreshold: {{ .Values.readinessProbe.successThreshold }}
-          timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
-          tcpSocket:
-            port: {{ .Values.internalPort }}
         ports:
         - containerPort: {{ .Values.internalPort }}
           protocol: TCP
@@ -53,22 +38,14 @@ spec:
             memory: {{ .Values.resources.requests.memory }}
         terminationMessagePath: /dev/termination-log
         volumeMounts:
-        - mountPath: /data
-          name: ossim-data
-        securityContext:
-          capabilities:
-            add:
-              - SYS_ADMIN
-          privileged: true
-          runAsUser: 1001
+        {{- include "omar-upload.volumeMounts" . | indent 8 }}
       dnsPolicy: ClusterFirst
       {{- if .Values.global.useImagePullSecret }}
       imagePullSecrets:
         - name: {{ .Values.appName }}-pull-secret
       {{- end }}
       restartPolicy: Always
+      securityContext: {}
       terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
       volumes:
-      - name: ossim-data
-        persistentVolumeClaim:
-          claimName: "{{ .Values.appName }}-ossim-data-pvc"
+      {{- include "omar-upload.volumes" . | indent 6 }}

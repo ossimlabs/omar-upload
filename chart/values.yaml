@@ -7,17 +7,17 @@ replicas: 1
 appName: omar-upload
 
 global:
-  dockerRepository: nexus-docker-private-group.ossim.io
+  dockerRepository: nexus-docker-public-hosted.ossim.io
   imagePullSecret:
     registry: null
     username: null
     password: null
-  hostname: omar-dev.ossim.io
+  hostname: omar-3pa-dev.nomedev.com
 
   createIngress: true
   useTls: false
   useTLSClientAuth: false
-  sslCertSecretName: null
+  sslCertSecretName: ssl-certs
   authSslCertSecretName: null
 
   createImagePullSecret: true
@@ -28,17 +28,7 @@ global:
 
   useSpringConfigServer: false
 
-  volumes:
-    ossimData:
-      type: null
-      nfsServer: null
-      nfsMountPoint: null
-      accessModes:
-        - ReadWriteMany
-      size: 1
-
-volumes:
-  ossimData: null
+baseUrl: https://omar-3pa-dev.nomedev.com
 
 # These variables can be overridden because of the use of the 'pluck' function:
 # - createIngress
@@ -58,8 +48,8 @@ resources:
     memory: 500Mi
     
 image:
-  name: omar-upload-app
-  tag: dev
+  name: omar-upload
+  tag: 1.0.6
   pullPolicy: Always
 
 ingressPath: /omar-upload
@@ -84,5 +74,21 @@ readinessProbe:
 terminationGracePeriodSeconds: 30
 
 envVars:
+  UPLOAD_WFS_QUERY: "/getFeature?service=WFS&version=1.1.0&request=GetFeature&typeName=omar:raster_entry&resultType=results&outputFormat=JSON&maxFeatures=1"
+  UPLOAD_WFS_URL: /omar-wfs/wfs
+  UPLOAD_PATH: /ingest/manual-upload
+  UPLOAD_BASE_URL: https://omar-3pa-dev.nomedev.com
+  UPLOAD_STAGER_URL: /omar-stager/dataManager/addRaster?filename=
+  UPLOAD_SUFFIX: "&background=true&buildThumbnails=true&buildOverviews=true&buildHistograms=true&buildHistogramsWithR0=true&useFastHistogramStaging=false&overviewType=ossim_tiff_box&overviewCompressionType=NONE&thumbnailSize=512&thumbnailType=jpeg&thumbnailStretchType=auto-minmax"
   SPRING_CLOUD_CONFIG_LABEL: master
   JAVA_OPTS: "-server -Xms256m -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:MaxRAMFraction=1 -XX:+CMSClassUnloadingEnabled -XX:+UseGCOverheadLimit -Djava.awt.headless=true -XshowSettings:vm -Djava.security.egd=file:/dev/./urandom"
+
+configmaps: {}
+
+extraVolumes: []
+
+extraVolumeMounts: []
+
+extraInitContainers: []
+
+sideCars: []
