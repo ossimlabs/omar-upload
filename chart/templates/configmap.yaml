@@ -7,9 +7,9 @@ metadata:
 data:
   application.yaml: |-
     upload:
-      imageUploadPath: {{ .Values.upload.imageUploadPath }}
-      baseUrl: {{ .Values.upload.baseUrl }}
-      suffix: {{ .Values.upload.suffix }}
+      imageUploadPath: '/data'
+      baseUrl: 'omar-3pa-dev.ossim.io'
+      suffix: 'omar-upload'
     environments:
       production:
         dataSource:
