@@ -60,8 +60,23 @@ function hideSpinner() {
 }
 
 function checkStagingStatus() {
-  var wfsQuery = "${raw(grailsApplication.config.omarWfsUrl)}${raw(grailsApplication.config.baseWfsQuery)}&filter=filename+LIKE+%27%25${params.filename}%25%27";
-  console.log(wfsQuery);
+  let filenameObj = document.getElementById('filename');
+  let pathObj = document.getElementById('path');
+
+  if (filenameObj == undefined || filenameObj == null)
+    return;
+
+  let wfsQuery = `${baseUrl}${wfsUrl}&filter=filename+LIKE+%27%25/3pa-blacksky/upload-test/2021-05-24/${uploadedFilename}%25%27`;
+  
+  console.log(`Wfs query: ${wfsQuery}`);
+  // $.ajax({
+  //   url: ajaxAction,
+  //   data: {path: `${path.innerText}/${filenameObj.innerText}`},
+  //   success: function(resp){
+  //       console.log(resp);
+  //   }
+  // });
+
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
       // readyState 4: Done
@@ -69,30 +84,19 @@ function checkStagingStatus() {
       if (this.readyState == 4 && this.status == 200) {
           var wfsQueryResults = JSON.parse(this.responseText);
           if (wfsQueryResults != null && wfsQueryResults["features"].length != 0) {
-              var omarUiLink = "${grailsApplication.config.omarUiUrl}?filename=${params.filename}&mapVisibility=true&spatial=mapFilter";
               console.log(wfsQueryResults);
               console.log(wfsQueryResults["features"]);
               console.log(wfsQueryResults["features"][0]["properties"]);
-              var tlvLink = "${grailsApplication.config.tlvUrl}?filter=in(" + wfsQueryResults["features"][0]["properties"]["id"] + ")";
-              document.getElementById("checkStagingResults").innerHTML = "" +
-                  "<br />" +
-                  "The image has been staged!" +
-                  "<br /><hr /><br />" +
-                  "OMAR-UI link: <a href=\"" + omarUiLink + "\">" + omarUiLink + "</a>" +
-                  "<br /><hr /><br />" +
-                  "TLV link: <a href=\"" + tlvLink + "\">" + tlvLink + "</a>" +
-                  "<br /><hr /><br />" +
-                  "Here is the result of the WFS query:" +
-                  "<br />" +
-                  "<div style=\"background-color: #dddddd\"><pre>" + JSON.stringify(wfsQueryResults, null, 2) + "</pre></div>" +
-                  "";
           } else{
-              document.getElementById("checkStagingResults").innerHTML = "The image has not yet been staged, please wait a few seconds and then try again."
+            console.log("NOT YET STAGED");
+              // document.getElementById("checkStagingResults").innerHTML = "The image has not yet been staged, please wait a few seconds and then try again."
           }
       } else if (this.readyState == 4) {
-          document.getElementById("checkStagingResults").innerHTML = "The image has not yet been staged, please wait a few seconds and then try again."
+        console.log("NOT YET STAGED");
+          // document.getElementById("checkStagingResults").innerHTML = "The image has not yet been staged, please wait a few seconds and then try again."
       } else {
-          document.getElementById("checkStagingResults").innerHTML = "<img id='spinner' src=\"${createLinkTo(dir: 'images', file: 'spinner.gif')}\" alt='Spinner'/>"
+        console.log("NOT YET STAGED");
+          // document.getElementById("checkStagingResults").innerHTML = "<img id='spinner' src=\"${createLinkTo(dir: 'images', file: 'spinner.gif')}\" alt='Spinner'/>"
       }
   };
   xhttp.open("GET", wfsQuery, true);

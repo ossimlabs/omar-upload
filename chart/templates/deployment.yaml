@@ -53,7 +53,7 @@ spec:
             memory: {{ .Values.resources.requests.memory }}
         terminationMessagePath: /dev/termination-log
         volumeMounts:
-        - mountPath: /3pa-blacksky
+        - mountPath: /ingest
           name: upload-data
         securityContext:
           capabilities:

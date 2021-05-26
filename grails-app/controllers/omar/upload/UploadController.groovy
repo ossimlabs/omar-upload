@@ -1,17 +1,27 @@
 package omar.upload
 import java.text.SimpleDateFormat
 import org.springframework.beans.factory.annotation.Value
+import groovy.json.*
 
 class UploadController {
 
-  @Value('${upload.path:/data}')
+  @Value('${upload.path:/Users/benbuzzelli/Desktop/omar-upload-imagery}')
   def imageUploadPath
 
-  @Value('${upload.url:http}')
+  @Value('${upload.base.url:base}')
   def baseUrl
 
+  @Value('${upload.stager.url:http}')
+  def stagerUrl
+
   @Value('${upload.suffix:suffix}')
-  def suffix
+  def stagerSuffix
+
+  @Value('${upload.wfs.query:wfs}')
+  def wfsSuffix
+
+  @Value('${upload.wfs.url:wfsUrl}')
+  def wfsUrl
 
   def maxFileSize = grailsApplication.config.grails.controllers.upload.maxFileSize
 
@@ -65,10 +75,9 @@ class UploadController {
           file.transferTo(fileDest)
           flash.message="your.sucessful.file.upload.message"
 
-          stageImage("${path}/${file.filename}")
-
           def image = new Image(file.filename, path, file.size)
-          render(view:'uploadImage', model: [image: image, message: null])
+          render(view:'uploadImage', model: [image: image, baseUrl: baseUrl, filename: image.filename, path: image.path, wfsSuffix: wfsSuffix, wfsUrl: wfsUrl,  message: null])
+          stageImage("${path}/${file.filename}")
       } else {
           println "*"*80
           println validationString
@@ -115,7 +124,7 @@ class UploadController {
   }
 
   def stageImage(def path) {
-    def url = baseUrl + path + suffix
+    def url = baseUrl + stagerUrl + path + stagerSuffix
 
     def post = new URL(url).openConnection();
     post.setRequestMethod("POST");
@@ -125,5 +134,9 @@ class UploadController {
     if (postRC.equals(200)) {
         println(post.getInputStream().getText());
     }
+  }
+
+  def checkStagingStatus() {
+    println("Image:");
   }
 }
