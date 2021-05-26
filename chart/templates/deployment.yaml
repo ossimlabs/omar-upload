@@ -39,6 +39,12 @@ spec:
         terminationMessagePath: /dev/termination-log
         volumeMounts:
         {{- include "omar-upload.volumeMounts" . | indent 8 }}
+        securityContext:
+          capabilities:
+            add:
+              - SYS_ADMIN
+          privileged: true
+          runAsUser: 1001
       dnsPolicy: ClusterFirst
       {{- if .Values.global.useImagePullSecret }}
       imagePullSecrets:
