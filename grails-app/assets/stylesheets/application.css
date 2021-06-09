@@ -1,3 +1,5 @@
+@charset 'UTF-8';
+
 :root {
   --primary: #fcaf17;
   --primary-light: #ffc759;
@@ -28,12 +30,37 @@
   font-size: large;
 }
 
+.color-alt {
+  color: #71a3ff;
+}
+
+.color-alt-btn {
+  cursor:pointer;
+  color: #71a3ff;
+}
+
+.color-alt-btn:hover {
+  color: #98bcff;
+}
+
+.color-alt-btn:focus {
+  color: #5c84ce;
+}
+
 .color1 {
   color: var(--text-secondary-dark);
 }
 
 .color2 {
-  color: var(--primary);
+  color: var(--primary-light);
+}
+
+.color3 {
+  color: var(--primary-light);
+}
+
+.color4 {
+  color: #1d1d1d;
 }
 
 .colorSuccess {
@@ -44,9 +71,28 @@
   color: var(--alt);
 }
 
+.header1 {
+  margin-bottom: 10px;
+}
+
+.p {
+  font-family: "Arial";
+  font-size: 14px;
+  margin-bottom: 10px;
+  line-height: 24px;
+}
+
 .p1 {
   font-family: "Arial";
   font-size: medium;
+  margin-bottom: 10px;
+  line-height: 24px;
+  vertical-align: middle;
+}
+
+.p2 {
+  font-family: "Arial";
+  font-size: large;
 }
 
 ul {
@@ -57,6 +103,11 @@ ul {
 
 .div1 {
   margin: 20px;
+}
+
+.textBox {
+  margin: auto;
+  width: 350px;
 }
 
 .task-bar {
@@ -116,6 +167,24 @@ input {
   border: none;
 }
 
+::file-selector-button {
+  height: 32px;
+  background-color:#fcaf17;
+  color:#2e2e2e;
+  font-weight: bold;
+  border-radius: 5px;
+  border: none;
+}
+
+::file-selector-button:hover {
+  background-color:#ffc759;
+}
+
+::file-selector-button:focus {
+  background-color:#fcaf17;
+  outline: none;
+}
+
 ::-webkit-file-upload-button:hover, button:hover {
   background-color:#ffc759;
 }
@@ -134,16 +203,56 @@ input:focus {
   outline: none;
 }
 
+.center-form {
+  margin: 0;
+  position: absolute;
+  top: 40%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+
+  left: 50%;
+  -ms-transform: translateX(-50%);
+  transform: translateX(-50%);
+}
+
 .info-container {
   display: inline-block;
   min-width: 200px;
-  border: #db9814 solid 1px;
+  border: #3d3d3d solid 1px;
   border-radius: 5px;
   margin-bottom: 20px;
 }
 
+.tooltip {
+  position: relative;
+  width: auto;
+  height: 24px;
+  display: inline-block;
+}
+
+.tooltiptext {
+  visibility: hidden;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding-left: 10px;
+  padding-right: 10px;
+  bottom: 5px;
+  left: 25px;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
 table {
   border-collapse: collapse;
+  min-width: 330px;
 }
 
 tr {
@@ -192,4 +301,237 @@ body {
   overflow-x: hidden;
   background: rgb(29,29,29);
   background: linear-gradient(180deg, rgba(29,29,29,1) 65%, rgba(18,18,18,1) 100%);
+}
+
+.bar {
+  position: relative;
+  background-color: #fcaf17;
+  /* background-color: blue; */
+  width: 0px;
+  height: 20px;
+  filter: none;
+  margin-top: 15px;
+  border: none;
+  border-radius: 5px;
+}
+
+.bar-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  width: 350px;
+  border: none;
+  border-radius: 5px;
+  height: 20px;
+  background-color:#111111;
+}
+
+.icon-line {
+  height: 24px;
+  line-height: 24px;
+  text-align: center;
+  vertical-align: middle;
+  display: flex;
+}
+
+.colorPending {
+  color:#fff459;
+}
+
+.pending {
+  background-color: #fff459;
+}
+
+.pending-container {
+  position: absolute;
+  margin:0;
+  bottom: 15px;
+  left: 50%;
+  -ms-transform: translateX(-50%);
+  transform: translateX(-50%);
+}
+
+.statusBar {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  height: 10px;
+}
+
+.bg-pending {
+  background-color: #fff459;
+}
+
+.bg-success {
+  background-color:#a4ed8c;
+}
+
+.bg-fail {
+  background-color:#ff9273;
+}
+
+.statusCircle {
+  width: 16px;
+  height: 16px;
+  line-height: 24px;
+  vertical-align: middle;
+  border-radius: 16px;
+  border: #f6f6f6 solid 3px;
+  margin-right: 15px;
+  margin-left: 15px;
+}
+
+.icon-button {
+  vertical-align: middle;
+  color:#fcaf17;
+  cursor: default;
+}
+
+.icon-button:hover {
+  color:var(--primary-light);
+}
+
+.icon-button:focus {
+  color:#9a6b0e;
+}
+
+/** ANIMATIONS */
+
+.loading-ball {
+  height: 12px;
+  width: 12px;
+  margin-top: 15px;
+  margin-right: 5px;
+  background-color: #fcaf17;
+  border-radius: 50%;
+  animation-name: stretch;
+  animation-duration: 1s; 
+  animation-timing-function: ease-out; 
+  /* animation-delay: 0; */
+  animation-direction: alternate;
+  animation-iteration-count: infinite;
+  animation-fill-mode: none;
+  animation-play-state: running;
+  display: inline-block;
+}
+
+.delay-1 {
+  animation-delay: 0s;
+}
+
+.delay-2 {
+  animation-delay: .4s;
+}
+
+.delay-3 {
+  animation-delay: .8s;
+}
+
+@keyframes stretch {
+  0% {
+    transform: scale(.3);
+    background-color: #fcaf17;
+    border-radius: 100%;
+  }
+  50% {
+    background-color: #ffc759;
+    border-radius: 75%;
+  }
+  100% {
+    transform: scale(1);
+    background-color: #ffc759;
+    border-radius: 50%;
+  }
+}
+
+.alert-text {
+  text-align: center;
+  vertical-align: middle;
+  font-family: "Arial";
+  font-size: medium;
+  line-height: 45px;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+.alert-container {
+  height: 100px;
+  width: 100%;
+  position: absolute;
+  bottom: 0px;
+  overflow-y: hidden;
+}
+
+.alert-sub-container {
+  height: 100px;
+  position: relative;
+}
+
+.info-container-bottom {
+  display: inline-block;
+  min-width: 220px;
+  height: 45px;
+  line-height: 45px;
+  background-color:#4a4a4a;
+  border-radius: 5px;
+  position: absolute;
+  bottom: -45px;
+  left: 50%;
+  transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  text-align: center;
+  filter: drop-shadow(0px 0px 10px #000000);
+}
+
+.ingest-alert {
+  letter-spacing: 1.1px;
+  animation-name: slideUp;
+  animation-duration: .75s; 
+  animation-timing-function: ease-out; 
+  /* animation-delay: 0; */
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  animation-play-state: running;
+  display: inline-block;
+}
+
+.ingest-alert-hide {
+  animation-name: slideDown;
+}
+
+@keyframes slideUp {
+  0% {
+    bottom: -45px;
+  }
+  100% {
+    bottom: 25px;
+  }
+}
+
+@keyframes slideDown {
+  0% {
+    height: 70px;
+  }
+  100% {
+    height: 0px;
+  }
+}
+
+.fadeIn {
+  overflow: hidden;
+  animation-name: fadeIn;
+  animation-duration: 1s; 
+  animation-timing-function: ease-out; 
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  animation-play-state: running;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0%;
+  }
+  100% {
+    opacity: 100%;
+  }
 }

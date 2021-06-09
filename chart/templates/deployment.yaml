@@ -53,8 +53,8 @@ spec:
             memory: {{ .Values.resources.requests.memory }}
         terminationMessagePath: /dev/termination-log
         volumeMounts:
-        - mountPath: /ingest
-          name: upload-data
+        - mountPath: /3pa-blacksky
+          name: maxar-blacksky-data
         securityContext:
           capabilities:
             add:
@@ -69,6 +69,6 @@ spec:
       restartPolicy: Always
       terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
       volumes:
-      - name: upload-data
+      - name: maxar-blacksky-data
         persistentVolumeClaim:
-          claimName: "{{ .Values.appName }}-upload-data-pvc"
+          claimName: "{{ .Values.appName }}-maxar-blacksky-data-pvc"

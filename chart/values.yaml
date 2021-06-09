@@ -18,13 +18,13 @@ global:
     registry: nexus-3pa-dev-docker-proxy.ossim.io
     username: radiantcibot
     password: 498uKJp56uhG1bvC
-  hostname: omar-3pa-dev.nomedev.com
+  hostname: omar-3pa-dev.ossim.io
 
   createIngress: true
   useTls: false
   useTLSClientAuth: false
   sslCertSecretName: ssl-certs
-  authSslCertSecretName: null
+  authSslCertSecretName: pki-ssl-certs
 
   createImagePullSecret: true
   useImagePullSecret: true
@@ -35,19 +35,19 @@ global:
   useSpringConfigServer: false
 
   volumes:
-    upload-data:
+    maxar-blacksky-data:
       type: nfs
-      nfsServer: 10.10.40.166
-      nfsMountPoint: /omar-3pa-dev-nfs-nome/ingest
+      nfsServer:  10.20.150.239
+      nfsMountPoint: /omar-3pa-dev-nfs/3pa-blacksky
       accessModes:
         - ReadWriteMany
       size: 500Gi
-      mountPath: /ingest
+      mountPath: /3pa-blacksky
 
 volumeNames:
-  - upload-data
+  - maxar-blacksky-data
 
-baseUrl: https://omar-3pa-dev.nomedev.com
+baseUrl: https://omar-3pa-dev.ossim.io
 
 # These variables can be overridden because of the use of the 'pluck' function:
 # - createIngress
@@ -68,7 +68,7 @@ resources:
     
 image:
   name: omar-upload
-  tag: 1.0.6
+  tag: 1.1.1
   pullPolicy: Always
 
 ingressPath: /omar-upload
@@ -93,10 +93,11 @@ readinessProbe:
 terminationGracePeriodSeconds: 30
 
 envVars:
-  UPLOAD_WFS_QUERY: "/getFeature?service=WFS&version=1.1.0&request=GetFeature&typeName=omar:raster_entry&resultType=results&outputFormat=JSON&maxFeatures=1"
-  UPLOAD_WFS_URL: /omar-wfs/wfs
-  UPLOAD_PATH: /ingest/manual-upload
-  UPLOAD_BASE_URL: https://omar-3pa-dev.nomedev.com
+  UPLOAD_WFS_QUERY: "%27%20AND%20entry_id%3D0&outputFormat=JSON&request=GetFeature&service=WFS&typeName=omar:raster_entry&version=1.1.0"
+  UPLOAD_WFS_URL: "/omar-wfs/wfs?filter=filename%3D%27"
+  UPLOAD_PATH: /3pa-blacksky/manual-upload
+  UPLOAD_BASE_URL: https://omar-3pa-dev.ossim.io/
+  UPLOAD_WFS_BASE_URL: https://omar-3pa-dev.ossim.io/
   UPLOAD_STAGER_URL: /omar-stager/dataManager/addRaster?filename=
   UPLOAD_SUFFIX: "&background=true&buildThumbnails=true&buildOverviews=true&buildHistograms=true&buildHistogramsWithR0=true&useFastHistogramStaging=false&overviewType=ossim_tiff_box&overviewCompressionType=NONE&thumbnailSize=512&thumbnailType=jpeg&thumbnailStretchType=auto-minmax"
   SPRING_CLOUD_CONFIG_LABEL: master
