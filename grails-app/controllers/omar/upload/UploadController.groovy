@@ -10,7 +10,7 @@ import grails.converters.JSON
 
 class UploadController {
 
-  @Value('${upload.path:/Users/benbuzzelli/Desktop/omar-upload-imagery}')
+  @Value('${upload.path:/3pa-blacksky/manual-upload}')
   def imageUploadPath
 
   @Value('${upload.base.url:http://localhost:8080}')
@@ -97,12 +97,15 @@ class UploadController {
 
     // def file = request.getFile('uploadedFile')
     String path = getPath()
+    String logPath = getLogPath()
     def validationString = getImageValidation(file, "${path}/${file.filename}")
+    makeImageDirectories("${imageUploadPath}/logs")
+    File logFile = new File(logPath)
+
     try {
       if(validationString == 'valid') {
           println "*"*80
           println "Uploaded: ${path}/${file.filename}"
-
           makeImageDirectories(path)
 
           File fileDest = new File("${path}/${file.filename}")
@@ -110,6 +113,8 @@ class UploadController {
 
           this.filename = file.filename
           this.path = path
+          
+          logMessage("Upload attempt success for: ${path}/${file.filename}", logFile)
 
           def image = new Image(file.filename, path, file.size)
           render(view:'uploadImage', model: [image: image, baseUrl: baseUrl, filename: image.filename, path: image.path, wfsSuffix: wfsSuffix, wfsUrl: wfsUrl,  message: null])
@@ -120,14 +125,25 @@ class UploadController {
           this.filename = file.filename
           this.path = path
 
+          logMessage("Invalid file for: ${file.filename}\n    Error: ${validationString}", logFile)
+
           render(view:'uploadImage', model: [image: null, message: validationString, baseUrl: baseUrl, filename: file.filename, path: path, wfsSuffix: wfsSuffix, wfsUrl: wfsUrl])
       }
     } catch(Exception e){
       log.error("File upload failed",e)
       this.filename = file.filename
       this.path = path
+
+      logMessage("Upload error for: ${path}/${file.filename}\n    Error: ${e.getClass().getCanonicalName()}", logFile)
+
       render(view:'uploadImage', model: [image: null, message: e.getClass().getCanonicalName(), baseUrl: baseUrl, filename: file.filename, path: path, wfsSuffix: wfsSuffix, wfsUrl: wfsUrl])
     }
+  }
+
+  def logMessage(def message, def file) {
+    def date = new Date()
+    def sdf = new SimpleDateFormat("HH:mm:ss")
+    file.append("\nTimestamp: ${sdf.format(date)}\n    ${message}\n")
   }
 
   def validFileType(def file) {
@@ -171,6 +187,12 @@ class UploadController {
     return "${imageUploadPath}/${sdf.format(date)}"
   }
 
+  String getLogPath() {
+    def date = new Date()
+    def sdf = new SimpleDateFormat("yyyy-MM-dd")
+    return "${imageUploadPath}/logs/${sdf.format(date)}.txt"
+  }
+
   def makeImageDirectories(def dirPath) {
     File directory = new File(dirPath)
     if (!directory.exists()) {
@@ -179,8 +201,14 @@ class UploadController {
   }
 
   def stageImage() {
+    String logPath = getLogPath()
+    makeImageDirectories("${imageUploadPath}/logs")
+    File logFile = new File(logPath)
+
     def path = request.JSON.path
     def url = baseUrl + stagerUrl + path + stagerSuffix
+
+    logMessage("Stage attempt: ${url}", logFile)
 
     println(url);
     try {
@@ -192,12 +220,15 @@ class UploadController {
         def res = post.getInputStream().getText();
         println("RESPONSE: " + res)
         render(contentType: "text/json", text: res)
+        logMessage("STAGE SUCCESS for url: ${url}", logFile)
       } else {
         def res = post.getInputStream().getText()
         render(contentType: "text/json", text: res)
+        logMessage("STAGE FAILED for url: ${url}\n    response: ${res}", logFile)
       } 
     } catch(Exception e){
         log.error("File staging failed",e)
+        logMessage("STAGE ERROR for url: ${url}\n    error: ${e.getClass().getCanonicalName()}", logFile)
         render(status: 500, contentType: "text/json", text: e.getClass().getCanonicalName())  
     }
   }
