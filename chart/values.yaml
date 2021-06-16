@@ -61,14 +61,14 @@ baseUrl: https://omar-3pa-dev.ossim.io
 resources:
   limits:
     cpu: 1500m
-    memory: 1000Mi
+    memory: 3000Mi
   requests:
     cpu: 20m
-    memory: 500Mi
+    memory: 2000Mi
     
 image:
   name: omar-upload
-  tag: 1.1.1
+  tag: 1.1.3
   pullPolicy: Always
 
 ingressPath: /omar-upload
