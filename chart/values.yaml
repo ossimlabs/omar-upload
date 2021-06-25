@@ -14,7 +14,14 @@ global:
     password: null
   hostname: omar-3pa-dev.nomedev.com
 
-  createIngress: true
+  omarDb:
+    name: null
+    host: null
+    user: null
+    password: null
+    port: null
+
+  createIngress: false
   useTls: false
   useTLSClientAuth: false
   sslCertSecretName: ssl-certs
@@ -49,10 +56,10 @@ resources:
     
 image:
   name: omar-upload
-  tag: 1.0.6
+  tag: 1.1
   pullPolicy: Always
 
-ingressPath: /omar-upload
+path: /omar-upload
 internalPort: 8080
 externalPort: 8080
 
